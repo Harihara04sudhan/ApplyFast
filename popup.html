@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form AutoFill Assistant</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>Form AutoFill</h1>
+            </div>
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Ready</span>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tab-container">
+            <button class="tab-button active" data-tab="quick-actions">Quick Actions</button>
+            <button class="tab-button" data-tab="profile">Profile</button>
+            <button class="tab-button" data-tab="settings">Settings</button>
+        </div>
+
+        <!-- Quick Actions Tab -->
+        <div class="tab-content active" id="quick-actions">
+            <div class="section">
+                <h3>Current Page</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="fillFormBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Fill Form
+                    </button>
+                    <button class="btn btn-secondary" id="detectFieldsBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Detect Fields
+                    </button>
+                </div>
+                <div class="field-info" id="fieldInfo" style="display: none;">
+                    <p>Fields detected: <span id="fieldCount">0</span></p>
+                    <div class="field-list" id="fieldList"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Profile Management</h3>
+                <div class="profile-selector">
+                    <label for="activeProfile">Active Profile:</label>
+                    <select id="activeProfile" class="form-select">
+                        <option value="default">Default Profile</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline" id="createProfileBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Create New Profile
+                </button>
+            </div>
+
+            <div class="section">
+                <h3>Site Management</h3>
+                <div class="site-controls">
+                    <button class="btn btn-outline" id="toggleSiteBtn">
+                        <span id="toggleSiteText">Disable for this site</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="tab-content" id="profile">
+            <div class="profile-editor">
+                <h3>Edit Profile Data</h3>
+                
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h4>Personal Information</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-input" placeholder="John">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-input" placeholder="Doe">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="john.doe@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" class="form-input" placeholder="New York">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" class="form-input" placeholder="123 Main Street">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="form-section">
+                    <h4>Education</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="university">University</label>
+                            <input type="text" id="university" class="form-input" placeholder="Harvard University">
+                        </div>
+                        <div class="form-group">
+                            <label for="degree">Degree</label>
+                            <input type="text" id="degree" class="form-input" placeholder="Bachelor of Science">
+                        </div>
+                        <div class="form-group">
+                            <label for="major">Major</label>
+                            <input type="text" id="major" class="form-input" placeholder="Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label for="gpa">GPA</label>
+                            <input type="text" id="gpa" class="form-input" placeholder="3.8">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="form-section">
+                    <h4>Work Experience</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="currentCompany">Current Company</label>
+                            <input type="text" id="currentCompany" class="form-input" placeholder="Google Inc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="currentPosition">Current Position</label>
+                            <input type="text" id="currentPosition" class="form-input" placeholder="Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label for="yearsOfExperience">Years of Experience</label>
+                            <input type="text" id="yearsOfExperience" class="form-input" placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedinUrl">LinkedIn URL</label>
+                            <input type="url" id="linkedinUrl" class="form-input" placeholder="https://linkedin.com/in/johndoe">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="skills">Skills</label>
+                            <textarea id="skills" class="form-input" rows="3" placeholder="JavaScript, Python, React, Node.js..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+                    <button class="btn btn-secondary" id="resetProfileBtn">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings">
+            <div class="settings-panel">
+                <h3>Extension Settings</h3>
+                
+                <div class="setting-group">
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="autoFillEnabled" class="setting-checkbox">
+                            <span class="checkmark"></span>
+                            Enable automatic form filling
+                        </label>
+                        <p class="setting-description">Automatically fill forms when page loads</p>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="showNotifications" class="setting-checkbox">
+                            <span class="checkmark"></span>
+                            Show notifications
+                        </label>
+                        <p class="setting-description">Display notifications when forms are filled</p>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Fill Speed</h4>
+                    <div class="setting-item">
+                        <label for="fillDelay">Delay between fields (ms):</label>
+                        <input type="range" id="fillDelay" min="0" max="1000" step="50" value="100" class="range-input">
+                        <span id="fillDelayValue" class="range-value">100ms</span>
+                    </div>
+                    <p class="setting-description">Higher values may help avoid anti-bot detection</p>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Disabled Sites</h4>
+                    <div class="disabled-sites" id="disabledSites">
+                        <p class="setting-description">Sites where auto-fill is disabled:</p>
+                        <div class="site-list" id="siteList"></div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="saveSettingsBtn">Save Settings</button>
+                    <button class="btn btn-outline" id="exportDataBtn">Export Data</button>
+                    <button class="btn btn-outline" id="importDataBtn">Import Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Version 1.0.0 | <a href="#" id="helpLink">Help</a></p>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+    <script src="popup.js"></script>
+</body>
+</html>
